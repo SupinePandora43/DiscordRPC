@@ -10,7 +10,7 @@ namespace DiscordRPC
     {
         public string ModuleName => "DiscordRPC";
 
-        public string ModuleVersion => "0.1.1";
+        public string ModuleVersion => "0.1.2";
 
         CFuncManagedDelegate DiscordRPC_update_callbacks;
         Discord.Discord discord;
@@ -322,6 +322,7 @@ namespace DiscordRPC
         public void Unload(ILua lua)
         {
             stopThread = true;
+            updater.Join();
             if (!disposed)
             {
                 discord.Dispose();
