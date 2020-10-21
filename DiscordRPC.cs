@@ -10,7 +10,7 @@ namespace DiscordRPC
     {
         public string ModuleName => "DiscordRPC";
 
-        public string ModuleVersion => "0.1.0";
+        public string ModuleVersion => "0.1.1";
 
         CFuncManagedDelegate DiscordRPC_update_callbacks;
         Discord.Discord discord;
@@ -22,7 +22,7 @@ namespace DiscordRPC
 
         String map = "map";
         String gamemode = "gamemode";
-        int score = 0;
+        String activityDetails = "Details";
         void UpdateActivity()
         {
             var activityManager = discord.GetActivityManager();
@@ -32,7 +32,7 @@ namespace DiscordRPC
             {
                 Type = Discord.ActivityType.Playing,
                 State = "Playing",
-                //Details = "Score "+score,
+                Details = activityDetails,
                 /*Timestamps =
             {
                 Start = 5,
@@ -102,6 +102,11 @@ namespace DiscordRPC
                 lua.GetField(-1, "GetMap");
                 lua.MCall(0, 1);
                 map = lua.GetString(-1);
+
+                lua.GetField(-2, "SinglePlayer");
+                lua.MCall(0, 1);
+                bool IsSinglePlayer = lua.GetBool(-2);
+
                 lua.Pop();
 
                 lua.PushSpecial(SPECIAL_TABLES.SPECIAL_GLOB);
@@ -110,6 +115,30 @@ namespace DiscordRPC
                 lua.MCall(0, 1);
                 gamemode = lua.GetString(-1);
                 lua.Pop();
+
+                activityDetails = IsSinglePlayer.ToString();
+
+                /*if (!is_serverside)
+                {
+                    lua.PushSpecial(SPECIAL_TABLES.SPECIAL_GLOB);
+                    lua.GetField(-1, "LocalPlayer"); //team.GetScore(ply:Team())
+                    lua.MCall(0, 1);
+
+                    lua.GetField(-1, "Team");
+                    lua.Push(-2);
+                    lua.MCall(0, 1);
+                    double team = lua.GetNumber(-1);
+                    lua.Pop();
+
+                    lua.PushSpecial(SPECIAL_TABLES.SPECIAL_GLOB);
+                    lua.GetField(-1, "teams");
+                    lua.GetField(-1, "GetScore");
+                    lua.PushNumber(team);
+                    lua.MCall(1, 1);
+                    score = (int)lua.GetNumber(-1);
+                    lua.Pop();
+                }*/
+
 
                 UpdateActivity();
                 return 0;
