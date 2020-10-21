@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net5</TargetFramework>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="Program.cs" />
+  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="GmodNET.API" Version="[0.7.0-alpha.2.25178751.new-load-model]" />
+		<PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+	</ItemGroup>
+</Project>
