@@ -10,11 +10,10 @@ namespace DiscordRPC
     {
         public string ModuleName => "DiscordRPC";
 
-        public string ModuleVersion => "0.1.2";
+        public string ModuleVersion => "0.1.3";
 
-        CFuncManagedDelegate DiscordRPC_update_callbacks;
         Discord.Discord discord;
-        static Int64 client_ID = Int64.Parse("715425421574799400");
+        private static readonly Int64 client_ID = Int64.Parse("715425421574799400");
         bool disposed = false;
         Thread updater;
         bool stopThread = false;
@@ -88,9 +87,8 @@ namespace DiscordRPC
             lua.MCall(1, 0);
             lua.Pop();
 
-            DiscordRPC_update_callbacks = (lua_state) =>
+            int DiscordRPC_update_callbacks(ILua lua)
             {
-                ILua lua = GmodInterop.GetLuaFromState(lua_state);
                 lua.PushSpecial(SPECIAL_TABLES.SPECIAL_GLOB);
                 lua.GetField(-1, "print");
                 lua.PushString("It Works!");
@@ -145,7 +143,7 @@ namespace DiscordRPC
             };
 
             lua.PushSpecial(SPECIAL_TABLES.SPECIAL_GLOB);
-            lua.PushCFunction(DiscordRPC_update_callbacks);
+            lua.PushManagedFunction(DiscordRPC_update_callbacks);
             lua.SetField(-2, "DiscordRPC_update_activity");
             lua.Pop(1);
 

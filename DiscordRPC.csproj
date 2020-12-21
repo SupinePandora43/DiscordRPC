@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net5</TargetFramework>
-    <OutputType>Library</OutputType>
-  </PropertyGroup>
-  <ItemGroup>
-    <ApplicationDefinition Include="Program.cs" />
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net5</TargetFramework>
+		<OutputType>Library</OutputType>
+	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="GmodNET.API" Version="[0.7.0-alpha.2.25178751.new-load-model]" />
+		<ApplicationDefinition Include="Program.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="GmodNET.API" Version="0.7.0-*" />
 	</ItemGroup>
 </Project>
