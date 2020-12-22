@@ -13,7 +13,7 @@ namespace DiscordRPC
         public string ModuleVersion => "0.1.3";
 
         Discord.Discord discord;
-        private static readonly Int64 client_ID = Int64.Parse("715425421574799400");
+        private static readonly long client_ID = long.Parse("715425421574799400");
         bool disposed = false;
         Thread updater;
         bool stopThread = false;
