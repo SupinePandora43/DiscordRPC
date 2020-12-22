@@ -114,7 +114,7 @@ namespace DiscordRPC
                 gamemode = lua.GetString(-1);
                 lua.Pop();
 
-                activityDetails = IsSinglePlayer.ToString();
+                activityDetails = IsSinglePlayer ? "Singleplayer" : "Multiplayer";
 
                 /*if (!is_serverside)
                 {
