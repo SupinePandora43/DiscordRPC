@@ -136,7 +136,7 @@ namespace DiscordRPC
                     int maxPlayers = (int)lua.GetNumber(-1);
                     lua.Pop();
 
-                    activityDetails = $"${players}/${maxPlayers}";
+                    activityDetails = $"{players}/{maxPlayers}";
                 }
 
                 /*if (!is_serverside)
