@@ -100,11 +100,13 @@ namespace DiscordRPC
                 lua.GetField(-1, "GetMap");
                 lua.MCall(0, 1);
                 map = lua.GetString(-1);
+                lua.Pop();
 
-                lua.GetField(-2, "SinglePlayer");
+                lua.PushSpecial(SPECIAL_TABLES.SPECIAL_GLOB);
+                lua.GetField(-1, "game");
+                lua.GetField(-1, "SinglePlayer");
                 lua.MCall(0, 1);
-                bool IsSinglePlayer = lua.GetBool(-2);
-
+                bool IsSinglePlayer = lua.GetBool(-1);
                 lua.Pop();
 
                 lua.PushSpecial(SPECIAL_TABLES.SPECIAL_GLOB);
@@ -114,7 +116,28 @@ namespace DiscordRPC
                 gamemode = lua.GetString(-1);
                 lua.Pop();
 
-                activityDetails = IsSinglePlayer ? "Singleplayer" : "Multiplayer";
+                if (IsSinglePlayer)
+                {
+                    activityDetails = "SinglePlayer";
+                }
+                else
+                {
+                    lua.PushSpecial(SPECIAL_TABLES.SPECIAL_GLOB);
+                    lua.GetField(-1, "player");
+                    lua.GetField(-1, "GetCount");
+                    lua.MCall(0, 1);
+                    int players = (int)lua.GetNumber(-1);
+                    lua.Pop();
+
+                    lua.PushSpecial(SPECIAL_TABLES.SPECIAL_GLOB);
+                    lua.GetField(-1, "game");
+                    lua.GetField(-1, "MaxPlayers");
+                    lua.MCall(0, 1);
+                    int maxPlayers = (int)lua.GetNumber(-1);
+                    lua.Pop();
+
+                    activityDetails = $"${players}/${maxPlayers}";
+                }
 
                 /*if (!is_serverside)
                 {
